@@ -1,5 +1,6 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Redirect, Tabs } from "expo-router";
 import colors from "tailwindcss/colors";
 import { useAuth } from "@clerk/clerk-expo";
@@ -19,9 +20,9 @@ export default function TabLayout() {
     return <Spinner size="large" color={colors.gray[500]} />;
   }
 
-  if (!isSignedIn) {
-    return <Redirect href="/(auth)/sign-in" />;
-  }
+  // if (!isSignedIn) {
+  //   return <Redirect href="/(auth)/sign-in" />;
+  // }
 
   return (
     <Tabs
@@ -48,6 +49,13 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="(exercises)"
+        options={{
+          title: "Exercises",
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
     </Tabs>

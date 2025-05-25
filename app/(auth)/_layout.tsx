@@ -20,9 +20,9 @@ export default function AuthRoutesLayout() {
   useWarmUpBrowser();
   const { isSignedIn } = useAuth();
 
-  if (isSignedIn) {
-    return <Redirect href="/(tabs)/(home)" />;
-  }
+  // if (!isSignedIn) {
+  //   return <Redirect href="/(tabs)/(home)" />;
+  // }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
