@@ -3,6 +3,8 @@ export type Exercise = {
   name: string;
   difficulty: string;
   description?: string;
-  isPremium?: boolean;
+  isPremium: boolean;
   imageUrl?: string;
+  instruction: string;
+  tags: string[];
 };
