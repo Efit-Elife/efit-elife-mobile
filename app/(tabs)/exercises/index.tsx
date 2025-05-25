@@ -9,7 +9,10 @@ const ExerciseScreen = () => {
   const router = useRouter();
 
   const handleOnPress = (id: string) => {
-    router.push(`/(tabs)/(exercises)/details/${id}`);
+    router.push({
+      pathname: "/exercises/[id]",
+      params: { id },
+    });
   };
 
   return <ExerciseList exercises={exercises} onPress={handleOnPress} />;
