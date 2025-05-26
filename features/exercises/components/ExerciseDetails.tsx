@@ -32,7 +32,7 @@ const ExerciseDetails = ({ exercise, id }: ExerciseDetailsProps) => {
           <Text className="text-2xl font-bold mb-2 text-black">
             Instructions
           </Text>
-          <Text className="text-lg text-typography-100 text-justify">
+          <Text className="text-lg text-[#242424] text-justify">
             {exercise.instruction}
           </Text>
         </View>
