@@ -1,14 +1,6 @@
 import { create } from "zustand";
 import { Exercise } from "@/types/common";
 
-type ExerciseStore = {
-  exercises: Exercise[];
-  addExercise: (exercise: Exercise) => void;
-  removeExercise: (exerciseId: string) => void;
-  clearExercises: () => void;
-  getExerciseById: (id: string) => Exercise | undefined;
-};
-
 // mock data for exercises
 const exerciseData: Exercise[] = [
   {
@@ -113,6 +105,17 @@ const exerciseData: Exercise[] = [
   },
 ];
 
+type ExerciseStore = {
+  exercises: Exercise[];
+  addExercise: (exercise: Exercise) => void;
+  removeExercise: (exerciseId: string) => void;
+  clearExercises: () => void;
+  getExerciseById: (id: string) => Exercise | undefined;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  getFilteredExercises: () => Exercise[];
+};
+
 const useExerciseStore = create<ExerciseStore>()((set, get) => {
   return {
     exercises: [...exerciseData],
@@ -131,6 +134,24 @@ const useExerciseStore = create<ExerciseStore>()((set, get) => {
 
     getExerciseById: (id) =>
       get().exercises.find((exercise) => exercise.id === id),
+
+    searchQuery: "",
+
+    setSearchQuery: (query) => set({ searchQuery: query }),
+
+    getFilteredExercises: () => {
+      const { exercises, searchQuery } = get();
+
+      if (!searchQuery.trim()) {
+        return exercises;
+      }
+
+      const normalizedQuery = searchQuery.toLowerCase().trim();
+
+      return exercises.filter((exercise) => {
+        return exercise.name.toLowerCase().startsWith(normalizedQuery);
+      });
+    },
   };
 });
 

@@ -1,11 +1,9 @@
-import React from "react";
 import { useRouter } from "expo-router";
-
 import useExerciseStore from "@/features/exercises/store/useExerciseStore";
 import ExerciseList from "@/features/exercises/components/ExerciseList";
 
 const ExerciseScreen = () => {
-  const { exercises, getExerciseById } = useExerciseStore();
+  const { getExerciseById } = useExerciseStore();
   const router = useRouter();
 
   const handleOnPress = (id: string) => {
@@ -19,7 +17,7 @@ const ExerciseScreen = () => {
     });
   };
 
-  return <ExerciseList exercises={exercises} onPress={handleOnPress} />;
+  return <ExerciseList onPress={handleOnPress} />;
 };
 
 export default ExerciseScreen;

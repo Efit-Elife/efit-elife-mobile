@@ -20,21 +20,19 @@ function List<T extends BaseItem>({
   emptyText = "No items found",
 }: ListProps<T>) {
   return (
-    <SafeAreaView className="flex-1">
-      <View className="p-4">
-        {title && <Text className="text-2xl font-bold mb-4">{title}</Text>}
-        {data.length === 0 ? (
-          <Text className="text-center text-gray-500 my-8">{emptyText}</Text>
-        ) : (
-          <FlatList
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingBottom: 20 }}
-          />
-        )}
-      </View>
-    </SafeAreaView>
+    <View className="p-4">
+      {title && <Text className="text-2xl font-bold mb-4">{title}</Text>}
+      {data.length === 0 ? (
+        <Text className="text-center text-gray-500 my-8">{emptyText}</Text>
+      ) : (
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      )}
+    </View>
   );
 }
 
