@@ -22,7 +22,6 @@ export default function TabLayout() {
   if (!isSignedIn) {
     return <Redirect href="/(auth)/sign-in" />;
   }
-
   return (
     <Tabs
       screenOptions={{
@@ -34,6 +33,13 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="(food)"
+        options={{
+          title: "Food",
+          tabBarIcon: ({ color }) => <TabBarIcon name="cutlery" color={color} />,
         }}
       />
       <Tabs.Screen

@@ -1,7 +1,8 @@
+import FoodScreen from "../../features/food/screens/FoodScreen";
 import { Text } from "react-native";
 
 const SignInPage = () => {
-  return <Text>Sign In</Text>;
+  return <FoodScreen/>
 };
 
 export default SignInPage;
