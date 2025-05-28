@@ -5,6 +5,7 @@ import ExerciseItem from "./ExerciseItem";
 import SearchBar from "../../../components/SearchBar/SearchBar";
 import List from "@/components/List/List";
 import useExerciseStore from "../store/useExerciseStore";
+import { SafeAreaView } from "react-native-safe-area-context";
 type ExerciseListProps = {
   onPress: (id: string) => void;
 };
@@ -20,7 +21,7 @@ const ExerciseList = ({ onPress }: ExerciseListProps) => {
   );
 
   return (
-    <View>
+    <SafeAreaView>
       <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
       <List
         data={filteredExercises}
@@ -28,7 +29,7 @@ const ExerciseList = ({ onPress }: ExerciseListProps) => {
         emptyText="No Execerise Recorded"
         title="Exercises"
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
