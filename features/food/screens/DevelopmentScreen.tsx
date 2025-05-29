@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from '../components/ui/safe-area-view';
+import { SafeAreaView } from '@/components/ui/safe-area-view';
+import { seedInitialFoodItems, FoodItem, getAllFoodItems } from '../utils/food-api';
 
 // Mock food data with ID, name, and calories
 const mockFoodItems = [
@@ -14,7 +15,7 @@ const mockFoodItems = [
 ];
 
 export default function DevelopmentScreen() {
-  const [items, setItems] = useState(mockFoodItems);
+  const [items, setItems] = useState<FoodItem[]>(mockFoodItems);
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
   
@@ -22,18 +23,22 @@ export default function DevelopmentScreen() {
     setLoading(true);
     // Simulate a delay
     setTimeout(() => {
-      setResult('Mock Firebase connection successful! Using development mode.');
+      setResult('Firebase Web SDK connection initialized');
       setLoading(false);
     }, 1000);
   };
   
-  const handleListItems = () => {
+  const handleListItems = async () => {
     setLoading(true);
-    // Simulate a delay
-    setTimeout(() => {
-      setResult(`Retrieved ${items.length} food items from mock database`);
+    try {
+      const foodItems = await getAllFoodItems();
+      setItems(foodItems);
+      setResult(`Retrieved ${foodItems.length} food items from Firebase`);
+    } catch (error: any) {
+      setResult(`Error fetching items: ${error.message}`);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
   
   const handleAddItem = () => {
@@ -52,12 +57,28 @@ export default function DevelopmentScreen() {
     }, 1000);
   };
   
+  const handleSeedData = async () => {
+    setLoading(true);
+    try {
+      await seedInitialFoodItems();
+      setResult('Successfully seeded food items to Firebase');
+      
+      // Refresh the list after seeding
+      const foodItems = await getAllFoodItems();
+      setItems(foodItems);
+    } catch (error: any) {
+      setResult(`Error seeding data: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Development Test Mode</Text>
         <Text style={styles.subHeaderText}>
-          (Firebase Native Module Not Available)
+          (Using Firebase Web SDK)
         </Text>
       </View>
       
@@ -68,7 +89,7 @@ export default function DevelopmentScreen() {
           disabled={loading}
         >
           <Text style={styles.buttonText}>
-            {loading ? 'Testing...' : 'Test Mock Connection'}
+            {loading ? 'Testing...' : 'Test Firebase Connection'}
           </Text>
         </TouchableOpacity>
         
@@ -78,7 +99,7 @@ export default function DevelopmentScreen() {
           disabled={loading}
         >
           <Text style={styles.buttonText}>
-            {loading ? 'Loading...' : 'List Mock Food Items'}
+            {loading ? 'Loading...' : 'List Food Items'}
           </Text>
         </TouchableOpacity>
         
@@ -89,6 +110,16 @@ export default function DevelopmentScreen() {
         >
           <Text style={styles.buttonText}>
             {loading ? 'Adding...' : 'Add Mock Food Item'}
+          </Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.button, styles.seedButton]}
+          onPress={handleSeedData}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>
+            {loading ? 'Seeding...' : 'Seed Food Database'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -110,8 +141,7 @@ export default function DevelopmentScreen() {
       
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          This is a development version that mocks Firebase functionality.
-          To use the real Firebase implementation, install and link the native modules.
+          This application uses Firebase Web SDK for database operations.
         </Text>
       </View>
     </SafeAreaView>
@@ -152,6 +182,9 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: '#0F9D58',
+  },
+  seedButton: {
+    backgroundColor: '#DB4437',
   },
   buttonText: {
     color: 'white',

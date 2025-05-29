@@ -1,3 +1,16 @@
+import { 
+  collection, 
+  getDocs, 
+  addDoc, 
+  deleteDoc, 
+  doc, 
+  query, 
+  orderBy, 
+  startAt, 
+  endAt,
+  limit,
+  writeBatch
+} from 'firebase/firestore';
 import { firebaseFirestore } from '../../../config/firebase';
 
 // The main collection name for food items
@@ -25,7 +38,8 @@ export interface FoodItem {
  */
 export const getAllFoodItems = async (): Promise<FoodItem[]> => {
   try {
-    const snapshot = await firebaseFirestore.collection(FOOD_COLLECTION).get();
+    const foodCollection = collection(firebaseFirestore, FOOD_COLLECTION);
+    const snapshot = await getDocs(foodCollection);
     
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -40,16 +54,17 @@ export const getAllFoodItems = async (): Promise<FoodItem[]> => {
 /**
  * Search food items by name
  */
-export const searchFoodItems = async (query: string): Promise<FoodItem[]> => {
+export const searchFoodItems = async (queryText: string): Promise<FoodItem[]> => {
   try {
-    // Firebase doesn't support native full-text search, so we're using a simple starts-with query
-    // For production, consider using Algolia or similar service for better text search
-    const snapshot = await firebaseFirestore
-      .collection(FOOD_COLLECTION)
-      .orderBy('name')
-      .startAt(query)
-      .endAt(query + '\uf8ff')
-      .get();
+    const foodCollection = collection(firebaseFirestore, FOOD_COLLECTION);
+    const q = query(
+      foodCollection,
+      orderBy('name'),
+      startAt(queryText),
+      endAt(queryText + '\uf8ff')
+    );
+    
+    const snapshot = await getDocs(q);
     
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -73,7 +88,8 @@ export const addFoodItem = async (foodItem: Omit<FoodItem, 'id'>): Promise<strin
       updatedAt: now
     };
     
-    const docRef = await firebaseFirestore.collection(FOOD_COLLECTION).add(itemWithTimestamps);
+    const foodCollection = collection(firebaseFirestore, FOOD_COLLECTION);
+    const docRef = await addDoc(foodCollection, itemWithTimestamps);
     return docRef.id;
   } catch (error) {
     console.error('Error adding food item:', error);
@@ -86,7 +102,8 @@ export const addFoodItem = async (foodItem: Omit<FoodItem, 'id'>): Promise<strin
  */
 export const deleteFoodItem = async (id: string): Promise<void> => {
   try {
-    await firebaseFirestore.collection(FOOD_COLLECTION).doc(id).delete();
+    const docRef = doc(firebaseFirestore, FOOD_COLLECTION, id);
+    await deleteDoc(docRef);
   } catch (error) {
     console.error('Error deleting food item:', error);
     throw error;
@@ -99,7 +116,9 @@ export const deleteFoodItem = async (id: string): Promise<void> => {
 export const seedInitialFoodItems = async (): Promise<void> => {
   try {
     // Check if collection is empty first
-    const snapshot = await firebaseFirestore.collection(FOOD_COLLECTION).limit(1).get();
+    const foodCollection = collection(firebaseFirestore, FOOD_COLLECTION);
+    const q = query(foodCollection, limit(1));
+    const snapshot = await getDocs(q);
     
     if (!snapshot.empty) {
       console.log('Food collection already has data, skipping seed');
@@ -126,11 +145,11 @@ export const seedInitialFoodItems = async (): Promise<void> => {
     ];
     
     // Add each food item
-    const batch = firebaseFirestore.batch();
+    const batch = writeBatch(firebaseFirestore);
     const now = new Date().toISOString();
     
     initialFoodItems.forEach(item => {
-      const docRef = firebaseFirestore.collection(FOOD_COLLECTION).doc();
+      const docRef = doc(collection(firebaseFirestore, FOOD_COLLECTION));
       batch.set(docRef, {
         ...item,
         createdAt: now,

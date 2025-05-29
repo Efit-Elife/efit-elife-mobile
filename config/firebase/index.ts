@@ -1,53 +1,31 @@
-// Use mock implementation instead of actual Firebase to avoid native module errors
-// When you're ready to use real Firebase implementation, you can remove this comment and restore the original code
+// Using Firebase Web SDK instead of React Native Firebase
 
-// Import mock implementation
-import {
-  app,
-  firebaseAuth,
-  firebaseFirestore,
-  firebaseStorage,
-  firebaseCrashlytics
-} from './mock';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
-// The actual Firebase initialization code is commented out to avoid native module errors
-/*
-import { initializeApp, getApps, getApp } from '@react-native-firebase/app';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
-import crashlytics from '@react-native-firebase/crashlytics';
-
-// Initialize Firebase if no apps are initialized yet
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAitOP2oZxfYghJ0Du9ggxzEVkPsqUK2l8",
-  authDomain: "efit-elife.firebaseapp.com",
-  projectId: "efit-elife",
-  storageBucket: "efit-elife.firebasestorage.app",
-  messagingSenderId: "474977804100",
-  appId: "1:474977804100:android:b8b93884dcdfdb13d20111"
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID
 };
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase services
-const firebaseAuth = auth();
-const firebaseFirestore = firestore();
-const firebaseStorage = storage();
-const firebaseCrashlytics = crashlytics();
-*/
+const firebaseFirestore = getFirestore(app);
+const firebaseStorage = getStorage(app);
+// Note: Crashlytics is not available in the Firebase Web SDK
+// If needed, use a different error tracking service for web/mobile
 
-// Export initialized services
 export {
   app,
-  firebaseAuth,
-  firebaseFirestore, 
-  firebaseStorage,
-  firebaseCrashlytics
+  firebaseFirestore,
+  firebaseStorage
 };
-
-/**
- * Note: Firebase initialization with React Native Firebase doesn't require
- * explicit config parameters in the code as they are pulled from:
- * - iOS: GoogleService-Info.plist (should be placed in the ios/[YOUR_APP_NAME] directory)
- * - Android: google-services.json (referenced in app.json and should be in the root directory)
- */
