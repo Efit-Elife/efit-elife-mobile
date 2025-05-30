@@ -14,12 +14,15 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const { isLoaded, isSignedIn } = useAuth();
+  // const { isLoaded, isSignedIn } = useAuth();
 
-  if (!isLoaded) {
-    return <Spinner size="large" color={colors.gray[500]} />;
-  }
+  // if (!isLoaded) {
+  //   return <Spinner size="large" color={colors.gray[500]} />;
+  // }
 
+  // if (!isSignedIn) {
+  //   return <Redirect href="/(auth)/sign-in" />;
+  // }
   // if (!isSignedIn) {
   //   return <Redirect href="/(auth)/sign-in" />;
   // }
@@ -35,6 +38,15 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="(food)"
+        options={{
+          title: "Food",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="cutlery" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
