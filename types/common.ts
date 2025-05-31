@@ -7,4 +7,6 @@ export type Exercise = {
   imageUrl?: string;
   instruction: string;
   tags: string[];
+  createdAt?: string;
+  updatedAt?: string;
 };

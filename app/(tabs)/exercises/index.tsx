@@ -1,23 +1,27 @@
 import { useRouter } from "expo-router";
-import useExerciseStore from "@/features/exercises/store/useExerciseStore";
 import ExerciseList from "@/features/exercises/components/ExerciseList";
+import { useQuery } from "@tanstack/react-query";
+import { getExercisesQuery } from "@/features/exercises/queries/index";
 
 const ExerciseScreen = () => {
-  const { getExerciseById } = useExerciseStore();
   const router = useRouter();
 
+  const { data = [], isLoading } = useQuery(getExercisesQuery());
+
   const handleOnPress = (id: string) => {
-    const exercise = getExerciseById(id);
-    if (exercise?.isPremium) {
-      return;
-    }
     router.push({
       pathname: "/exercises/[id]",
       params: { id },
     });
   };
 
-  return <ExerciseList onPress={handleOnPress} />;
+  return (
+    <ExerciseList
+      exercises={data}
+      onPress={handleOnPress}
+      isLoading={isLoading}
+    />
+  );
 };
 
 export default ExerciseScreen;

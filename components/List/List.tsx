@@ -1,14 +1,7 @@
-import React from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  View,
-  Platform,
-  useWindowDimensions,
-} from "react-native";
+import { FlatList, View, Platform } from "react-native";
 import { Text } from "@/components/ui/text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import { Spinner } from "@/components/ui/spinner";
 interface BaseItem {
   id: string;
 }
@@ -18,6 +11,7 @@ type ListProps<T extends BaseItem> = {
   renderItem: ({ item }: { item: T }) => React.ReactElement;
   title?: string;
   emptyText?: string;
+  isLoading?: boolean;
 };
 
 function List<T extends BaseItem>({
@@ -25,12 +19,20 @@ function List<T extends BaseItem>({
   renderItem,
   title = "Items",
   emptyText = "No items found",
+  isLoading,
 }: ListProps<T>) {
   const insets = useSafeAreaInsets();
 
   const tabBarHeight = Platform.OS === "ios" ? 49 + insets.bottom : 49;
   const additionalPadding = 50;
 
+  if (isLoading) {
+    return (
+      <View className="items-center justify-center w-full h-full">
+        <Spinner />
+      </View>
+    );
+  }
   return (
     <View className="p-4">
       {title && <Text className="text-2xl font-bold mb-4">{title}</Text>}
