@@ -1,6 +1,6 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Redirect, Tabs,  } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import colors from "tailwindcss/colors";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Spinner } from "@/components/ui/spinner";
@@ -20,10 +20,6 @@ export default function TabLayout() {
     return <Spinner size="large" color={colors.gray[500]} />;
   }
 
-  if (!isSignedIn) {
-    return <Redirect href="/(auth)/sign-in" />;
-  }
-
   if (isSignedIn && user?.unsafeMetadata?.onboarding_completed !== true) {
     return <Redirect href="/(auth)/setup-profile/step-1" />;
   }
@@ -39,6 +35,15 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="(food)"
+        options={{
+          title: "Food",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="cutlery" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
