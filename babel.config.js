@@ -16,7 +16,8 @@ module.exports = function (api) {
       [
         "module-resolver",
         {
-          root: ["./"],          alias: {
+          root: ["./"],
+          alias: {
             "@": "./",
             "@/features": "./features",
             "@/components": "./components",
