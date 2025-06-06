@@ -1,7 +1,7 @@
-import { Text } from "react-native";
+import OtpVerification from "@/features/auth/otp-verification";
 
-const OtpVerificationPage = () => {
-  return <Text>Sign In</Text>;
+const VerificationScreen = () => {
+  return <OtpVerification />;
 };
 
-export default OtpVerificationPage;
+export default VerificationScreen;

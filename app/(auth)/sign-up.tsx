@@ -1,7 +1,7 @@
-import { Text } from "react-native";
+import SignUp from "@/features/auth/sign-up";
 
 const SignUpPage = () => {
-  return <Text>Sign Up</Text>;
+  return <SignUp />;
 };
 
 export default SignUpPage;

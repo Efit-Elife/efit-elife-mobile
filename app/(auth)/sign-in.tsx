@@ -1,7 +1,7 @@
-import { Text } from "react-native";
+import SignIn from "@/features/auth/sign-in";
 
 const SignInPage = () => {
-  return <Text>Sign In</Text>;
+  return <SignIn />;
 };
 
 export default SignInPage;
