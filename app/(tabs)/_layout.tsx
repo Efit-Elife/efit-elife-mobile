@@ -3,7 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Redirect, Tabs } from "expo-router";
 import colors from "tailwindcss/colors";
-import { useAuth } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Spinner } from "@/components/ui/spinner";
 
 function TabBarIcon(props: {
@@ -14,18 +14,16 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  // const { isLoaded, isSignedIn } = useAuth();
+  const { user } = useUser();
+  const { isLoaded, isSignedIn } = useAuth();
 
-  // if (!isLoaded) {
-  //   return <Spinner size="large" color={colors.gray[500]} />;
-  // }
+  if (!isLoaded) {
+    return <Spinner size="large" color={colors.gray[500]} />;
+  }
 
-  // if (!isSignedIn) {
-  //   return <Redirect href="/(auth)/sign-in" />;
-  // }
-  // if (!isSignedIn) {
-  //   return <Redirect href="/(auth)/sign-in" />;
-  // }
+  if (isSignedIn && user?.unsafeMetadata?.onboarding_completed !== true) {
+    return <Redirect href="/(auth)/setup-profile/step-1" />;
+  }
 
   return (
     <Tabs
