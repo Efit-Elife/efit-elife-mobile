@@ -29,13 +29,16 @@ export default function useTrackingLocation() {
   }, []);
 
   // Save route
-  const saveRoute = async () => {
+  const saveRoute = async (routeName: string) => {
+    const currentRoute = [...routeCoords];
     setIsSaving(true);
     try {
       const saved = await saveRouteToFirestore(
-        routeCoords,
-        user?.id || "unknown"
+        currentRoute,
+        user?.id || "unknown",
+        routeName
       );
+
       if (saved) {
         setRouteCoords([]);
       }

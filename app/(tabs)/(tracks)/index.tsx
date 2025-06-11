@@ -7,12 +7,14 @@ import Map from "@/features/tracks/components/Map";
 import { startMockLocation, stopMockLocation } from "@/utils/mock-locations";
 import useTrackingLocation from "@/features/tracks/hooks/useTrackingLocation";
 import MapView from "react-native-maps";
-
+import { useRouter } from "expo-router";
+import TrackFormModal from "@/features/tracks/components/TrackFormModal";
 const Tracks = () => {
-  const { location, locationCallback, routeCoords, isSaving, saveRoute } =
+  const { location, locationCallback, routeCoords, saveRoute } =
     useTrackingLocation();
-
+  const router = useRouter();
   const [isTracking, setIsTracking] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const mapRef = useRef<MapView>(null);
   const [error] = useLocation(true, locationCallback);
 
@@ -38,11 +40,20 @@ const Tracks = () => {
     }
   };
 
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
   return (
     <View className="flex-1">
       {error && (
         <Text className="text-red-500 p-2">Error: {error.message}</Text>
       )}
+      <TrackFormModal
+        handleClose={() => setOpenModal(false)}
+        showModal={openModal}
+        saveRoute={saveRoute}
+      />
       <Map location={location} routeCoords={routeCoords} mapRef={mapRef} />
       <View className="absolute bottom-[10%] left-0 right-0 items-center">
         <View className="flex-row gap-4">
@@ -57,8 +68,8 @@ const Tracks = () => {
 
           <Button
             className="bg-green-500 px-6 py-2 min-w-[130px]"
-            onPress={saveRoute}
-            disabled={isSaving || isTracking || routeCoords.length < 2}
+            onPress={handleOpenModal}
+            disabled={isTracking}
           >
             <ButtonText>Save Route</ButtonText>
           </Button>

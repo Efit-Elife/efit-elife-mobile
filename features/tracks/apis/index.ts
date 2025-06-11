@@ -7,17 +7,18 @@ export type RouteCoords = {
 };
 export const saveRouteToFirestore = async (
   routeCoords: RouteCoords[],
-  userId: string = "unknown"
+  userId: string = "unknown",
+  routeName: string
 ): Promise<boolean> => {
   if (!routeCoords || routeCoords.length < 2) {
     return false;
   }
-
   try {
     await addDoc(collection(firebaseFirestore, "tracking-routes"), {
       createdAt: Timestamp.now(),
       userId: userId,
       route: routeCoords,
+      routeName,
     });
     console.log("✅ Route saved to Firestore successfully");
     return true;
@@ -26,3 +27,5 @@ export const saveRouteToFirestore = async (
     return false;
   }
 };
+
+export const getRoutesByUserId = async (userId: string) => {};
