@@ -1,11 +1,11 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { LocationObject } from "expo-location";
-import { RouteCoords, saveRouteToFirestore } from "../apis";
+import { RouteCoords } from "@/types/common";
 import { useUser } from "@clerk/clerk-expo";
-
+import { useSaveRouteMutation } from "../mutations";
 export default function useTrackingLocation() {
   const { user } = useUser();
-  const [isSaving, setIsSaving] = useState(false);
+  const { mutate, isPending } = useSaveRouteMutation();
   const [location, setLocation] = useState<LocationObject>({
     coords: {
       latitude: 0,
@@ -28,25 +28,20 @@ export default function useTrackingLocation() {
     ]);
   }, []);
 
-  // Save route
   const saveRoute = async (routeName: string) => {
     const currentRoute = [...routeCoords];
-    setIsSaving(true);
-    try {
-      const saved = await saveRouteToFirestore(
+    mutate(
+      {
         currentRoute,
-        user?.id || "unknown",
-        routeName
-      );
-
-      if (saved) {
-        setRouteCoords([]);
+        userId: user?.id || "unknown",
+        routeName,
+      },
+      {
+        onSuccess: () => {
+          setRouteCoords([]);
+        },
       }
-    } catch (err) {
-      console.error("Failed to save route", err);
-    } finally {
-      setIsSaving(false);
-    }
+    );
   };
 
   return {
@@ -54,6 +49,6 @@ export default function useTrackingLocation() {
     routeCoords,
     locationCallback,
     saveRoute,
-    isSaving,
+    isPending,
   };
 }

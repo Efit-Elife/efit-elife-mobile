@@ -1,10 +1,11 @@
 import MapView, { Marker, Polyline } from "react-native-maps";
 import { LocationObject } from "expo-location";
 import { RefObject } from "react";
+import { RouteCoords } from "@/types/common";
 
 interface Props {
   location: LocationObject;
-  routeCoords: { latitude: number; longitude: number }[];
+  routeCoords: RouteCoords[];
   mapRef: RefObject<MapView | null>;
 }
 
@@ -31,11 +32,18 @@ const Map = ({ location, routeCoords, mapRef }: Props) => {
       />
 
       {routeCoords.length > 1 && (
-        <Polyline
-          coordinates={routeCoords}
-          strokeColor="#1E90FF"
-          strokeWidth={4}
-        />
+        <>
+          <Polyline
+            coordinates={routeCoords}
+            strokeColor="#1E90FF"
+            strokeWidth={4}
+          />
+          <Marker
+            coordinate={routeCoords[routeCoords.length - 1]}
+            title="Điểm kết thúc"
+            pinColor="red"
+          />
+        </>
       )}
     </MapView>
   );

@@ -21,11 +21,10 @@ import {
   FormControlLabelText,
 } from "@/components/ui/form-control";
 import { Input, InputField } from "@/components/ui/input";
-import useTrackingLocation from "../hooks/useTrackingLocation";
 type TrackFormModalProps = {
   showModal: boolean;
   handleClose: () => void;
-  saveRoute: (routeName: string) => Promise<void>;
+  saveRoute: (routeName: string) => void;
 };
 
 export default function TrackFormModal({
@@ -40,7 +39,7 @@ export default function TrackFormModal({
       setIsInvalid(true);
       return;
     }
-    await saveRoute(inputValue.trim());
+    saveRoute(inputValue.trim());
     setInputValue("");
     setIsInvalid(false);
     handleClose();

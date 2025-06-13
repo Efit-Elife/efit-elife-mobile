@@ -9,6 +9,9 @@ import useTrackingLocation from "@/features/tracks/hooks/useTrackingLocation";
 import MapView from "react-native-maps";
 import { useRouter } from "expo-router";
 import TrackFormModal from "@/features/tracks/components/TrackFormModal";
+import { useUser } from "@clerk/clerk-expo";
+import { TouchableOpacity } from "react-native";
+import { Center } from "@/components/ui/center";
 const Tracks = () => {
   const { location, locationCallback, routeCoords, saveRoute } =
     useTrackingLocation();
@@ -17,7 +20,7 @@ const Tracks = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const mapRef = useRef<MapView>(null);
   const [error] = useLocation(true, locationCallback);
-
+  const { user } = useUser();
   useEffect(() => {
     if (mapRef && mapRef.current && location?.coords.latitude !== 0) {
       mapRef.current.animateToRegion({
@@ -44,11 +47,26 @@ const Tracks = () => {
     setOpenModal(true);
   };
 
+  const handleOnPress = () => {
+    router.push({
+      pathname: "/[id]",
+      params: { id: user?.id || "unknown" },
+    });
+  };
+
   return (
     <View className="flex-1">
       {error && (
         <Text className="text-red-500 p-2">Error: {error.message}</Text>
       )}
+      <Center>
+        <TouchableOpacity onPress={handleOnPress} className="">
+          <Text className="text-blue-500 text-lg font-bold p-2">
+            View Saved Routes
+          </Text>
+        </TouchableOpacity>
+      </Center>
+
       <TrackFormModal
         handleClose={() => setOpenModal(false)}
         showModal={openModal}
@@ -69,7 +87,7 @@ const Tracks = () => {
           <Button
             className="bg-green-500 px-6 py-2 min-w-[130px]"
             onPress={handleOpenModal}
-            disabled={isTracking}
+            disabled={isTracking || routeCoords.length < 2}
           >
             <ButtonText>Save Route</ButtonText>
           </Button>

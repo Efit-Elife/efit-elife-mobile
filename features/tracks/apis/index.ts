@@ -1,10 +1,15 @@
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  Timestamp,
+  where,
+} from "firebase/firestore";
 import { firebaseFirestore } from "@/config/firebase";
+import { RouteCoords, RouteItem } from "@/types/common";
 
-export type RouteCoords = {
-  latitude: number;
-  longitude: number;
-};
 export const saveRouteToFirestore = async (
   routeCoords: RouteCoords[],
   userId: string = "unknown",
@@ -20,12 +25,24 @@ export const saveRouteToFirestore = async (
       route: routeCoords,
       routeName,
     });
-    console.log("✅ Route saved to Firestore successfully");
     return true;
   } catch (err) {
-    console.error("❌ Failed to save route to Firestore:", err);
     return false;
   }
 };
 
-export const getRoutesByUserId = async (userId: string) => {};
+export const getRoutesByUserId = async (
+  userId: string
+): Promise<RouteItem[]> => {
+  const routesCollection = collection(firebaseFirestore, "tracking-routes");
+  const querySnapshot = await getDocs(
+    query(routesCollection, where("userId", "==", userId))
+  );
+
+  const routes = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as Omit<RouteItem, "id">),
+  }));
+
+  return routes;
+};
