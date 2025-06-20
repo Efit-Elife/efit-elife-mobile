@@ -100,7 +100,7 @@ const Tracks = () => {
       </View>
       {routeCoords.length > 2 && !isTracking && (
         <Button
-          className="bg-red-500 px-6 py-2 min-w-[130px]"
+          className="bg-red-500 px-6 py-2 absolute bottom-0 w-full"
           onPress={handleCancelRoute}
           disabled={isTracking || routeCoords.length < 2}
         >
