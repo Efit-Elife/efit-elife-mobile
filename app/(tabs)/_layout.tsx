@@ -1,6 +1,5 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Redirect, Tabs } from "expo-router";
 import colors from "tailwindcss/colors";
 import { useAuth, useUser } from "@clerk/clerk-expo";
@@ -17,9 +16,9 @@ export default function TabLayout() {
   const { user } = useUser();
   const { isLoaded, isSignedIn } = useAuth();
 
-  // if (!isLoaded) {
-  //   return <Spinner size="large" color={colors.gray[500]} />;
-  // }
+  if (!isLoaded) {
+    return <Spinner size="large" color={colors.gray[500]} />;
+  }
 
   if (isSignedIn && user?.unsafeMetadata?.onboarding_completed !== true) {
     return <Redirect href="/(auth)/setup-profile/step-1" />;
@@ -47,19 +46,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(food-log)"
+        name="(tracks)"
         options={{
-          title: "Food Log",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="book" color={color} />
-          ),
+          title: "Tracks",
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="(profile)"
+        name="exercises"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          title: "Exercises",
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -67,12 +64,6 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
-        }}
-      />      <Tabs.Screen
-        name="exercises"
-        options={{
-          title: "Exercises",
-          tabBarIcon: ({ color }) => <TabBarIcon name="heartbeat" color={color} />,
         }}
       />
     </Tabs>

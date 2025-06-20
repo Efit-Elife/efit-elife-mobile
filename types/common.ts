@@ -10,3 +10,20 @@ export type Exercise = {
   createdAt?: string;
   updatedAt?: string;
 };
+export type RouteCoords = {
+  latitude: number;
+  longitude: number;
+};
+
+export interface FirestoreTimestamp {
+  seconds: number;
+  nanoseconds: number;
+}
+
+export type RouteItem = {
+  id: string;
+  route: RouteCoords[];
+  routeName: string;
+  userId: string;
+  createdAt: FirestoreTimestamp;
+};
