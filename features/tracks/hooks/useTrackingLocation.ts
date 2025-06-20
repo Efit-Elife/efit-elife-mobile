@@ -44,11 +44,16 @@ export default function useTrackingLocation() {
     );
   };
 
+  const clearRoute = () => {
+    setRouteCoords([]);
+  };
+
   return {
     location,
     routeCoords,
     locationCallback,
     saveRoute,
     isPending,
+    clearRoute,
   };
 }
