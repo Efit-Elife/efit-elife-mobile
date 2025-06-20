@@ -17,9 +17,9 @@ export default function TabLayout() {
   const { user } = useUser();
   const { isLoaded, isSignedIn } = useAuth();
 
-  if (!isLoaded) {
-    return <Spinner size="large" color={colors.gray[500]} />;
-  }
+  // if (!isLoaded) {
+  //   return <Spinner size="large" color={colors.gray[500]} />;
+  // }
 
   if (isSignedIn && user?.unsafeMetadata?.onboarding_completed !== true) {
     return <Redirect href="/(auth)/setup-profile/step-1" />;
@@ -37,13 +37,21 @@ export default function TabLayout() {
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
-      />
-      <Tabs.Screen
+      />      <Tabs.Screen
         name="(food)"
         options={{
           title: "Food",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="cutlery" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="(food-log)"
+        options={{
+          title: "Food Log",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="book" color={color} />
           ),
         }}
       />
@@ -60,12 +68,11 @@ export default function TabLayout() {
           title: "Settings",
           tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
-      />
-      <Tabs.Screen
+      />      <Tabs.Screen
         name="exercises"
         options={{
           title: "Exercises",
-          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="heartbeat" color={color} />,
         }}
       />
     </Tabs>
