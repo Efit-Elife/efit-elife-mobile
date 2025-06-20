@@ -356,12 +356,13 @@ export const getExerciseByName = async (name: string): Promise<Exercise[]> => {
 
     return exercises;
   } catch (error) {
-    console.error("❌ Error fetching exercises by name:", error);
+    console.error("Error fetching exercises by name:", error);
     return [];
   }
 };
 
 export const getExerciseById = async (id: string): Promise<Exercise | null> => {
+  console.log("🚀 ~ getExerciseById ~ id:", id);
   try {
     const exerciseDocRef = doc(firebaseFirestore, EXERCISE_COLLECTION, id);
     const snapshot = await getDoc(exerciseDocRef);
@@ -376,7 +377,7 @@ export const getExerciseById = async (id: string): Promise<Exercise | null> => {
       ...(snapshot.data() as Omit<Exercise, "id">),
     };
   } catch (error) {
-    console.error("❌ Error fetching exercise by ID:", error);
+    console.error("Error fetching exercise by ID:", error);
     return null;
   }
 };

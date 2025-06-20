@@ -8,14 +8,25 @@ import {
   ModalContent,
   ModalHeader,
 } from "@/components/ui/modal";
-import { useRef, useEffect } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  useOptimistic,
+  startTransition,
+} from "react";
 import { Center } from "@/components/ui/center";
 import { RouteItem } from "@/types/common";
 import { LocationObject } from "expo-location";
 import MapView from "react-native-maps";
 import Map from "@/features/tracks/components/Map";
 import { View } from "react-native";
-
+import { Button } from "@/components/ui/button";
+import { EditIcon, TrashIcon } from "@/components/ui/icon";
+import { useDeleteRouteMutation, useEditNameMutation } from "../mutations";
+import { useUser } from "@clerk/clerk-expo";
+import ChangeNameModal from "./ChangeNameModal";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 type MapModalProps = {
   showModal: boolean;
   handleClose: () => void;
@@ -27,8 +38,16 @@ export default function MapModal({
   handleClose,
   item,
 }: MapModalProps) {
-  const mapRef = useRef<MapView>(null);
+  const { user } = useUser();
+  const editNameMutation = useEditNameMutation(user?.id || "");
+  const deleteMutation = useDeleteRouteMutation(user?.id || "");
+  const [openChangeNameModal, setOpenChangeNameModal] = useState(false);
 
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [optimisticName, setOptimisticName] = useOptimistic(item.routeName);
+
+  const mapRef = useRef<MapView>(null);
   const location: LocationObject = {
     coords: {
       latitude: item.route?.[0]?.latitude ?? 0,
@@ -53,20 +72,50 @@ export default function MapModal({
     }
   }, [showModal, item.route]);
 
+  const handleEditSubmit = (newName: string) => {
+    if (newName.trim() === "") {
+      return;
+    }
+    startTransition(() => {
+      setOptimisticName(newName);
+    });
+
+    editNameMutation.mutate({
+      newName,
+      routeId: item.id,
+    });
+  };
+
+  const handleDeleteSubmit = () => {
+    deleteMutation.mutate(item.id);
+    setOpenDeleteModal(false);
+    handleClose();
+  };
+
   return (
     <Center>
+      <ChangeNameModal
+        handleClose={() => setOpenEditModal(false)}
+        showModal={openEditModal}
+        onSubmit={handleEditSubmit}
+      />
+      <DeleteConfirmModal
+        handleClose={() => setOpenDeleteModal(false)}
+        showModal={openDeleteModal}
+        onSubmit={handleDeleteSubmit}
+      />
       <Modal isOpen={showModal} onClose={handleClose} size="lg">
         <ModalBackdrop />
         <ModalContent>
           <ModalHeader>
             <Heading size="md" className="text-typography-950">
-              {item.routeName || "Route Map"}
+              {optimisticName}
             </Heading>
             <ModalCloseButton>
               <Icon
                 as={CloseIcon}
                 size="md"
-                className="stroke-background-400 group-[:hover]/modal-close-button:stroke-background-700 group-[:active]/modal-close-button:stroke-background-900 group-[:focus-visible]/modal-close-button:stroke-background-900"
+                className="stroke-background-400"
               />
             </ModalCloseButton>
           </ModalHeader>
@@ -77,6 +126,20 @@ export default function MapModal({
                 routeCoords={item.route ?? []}
                 mapRef={mapRef}
               />
+            </View>
+            <View className="flex-row justify-center items-center gap-2 mt-4">
+              <Button
+                className="bg-yellow-500"
+                onPress={() => setOpenEditModal(true)}
+              >
+                <Icon as={EditIcon} size="lg" />
+              </Button>
+              <Button
+                className="bg-red-500"
+                onPress={() => setOpenDeleteModal(true)}
+              >
+                <Icon as={TrashIcon} size="lg" />
+              </Button>
             </View>
           </ModalBody>
         </ModalContent>
