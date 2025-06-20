@@ -1,6 +1,5 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Redirect, Tabs } from "expo-router";
 import colors from "tailwindcss/colors";
 import { useAuth, useUser } from "@clerk/clerk-expo";
@@ -48,17 +47,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(profile)"
+        name="(tracks)"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="(settings)"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
+          title: "Tracks",
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -69,10 +61,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(tracks)"
+        name="(settings)"
         options={{
-          title: "Tracks",
-          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+          title: "Settings",
+          tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
         }}
       />
     </Tabs>
