@@ -13,7 +13,7 @@ import { useUser } from "@clerk/clerk-expo";
 import { TouchableOpacity } from "react-native";
 import { Center } from "@/components/ui/center";
 const Tracks = () => {
-  const { location, locationCallback, routeCoords, saveRoute } =
+  const { location, locationCallback, routeCoords, saveRoute, clearRoute } =
     useTrackingLocation();
   const router = useRouter();
   const [isTracking, setIsTracking] = useState<boolean>(false);
@@ -54,6 +54,11 @@ const Tracks = () => {
     });
   };
 
+  const handleCancelRoute = () => {
+    clearRoute();
+    setIsTracking(false);
+  };
+
   return (
     <View className="flex-1">
       {error && (
@@ -73,7 +78,7 @@ const Tracks = () => {
         saveRoute={saveRoute}
       />
       <Map location={location} routeCoords={routeCoords} mapRef={mapRef} />
-      <View className="absolute bottom-[10%] left-0 right-0 items-center">
+      <View className="absolute bottom-[10%] left-0 right-0 items-center ">
         <View className="flex-row gap-4">
           <Button
             className="bg-blue-500 px-6 py-2 min-w-[130px]"
@@ -93,6 +98,15 @@ const Tracks = () => {
           </Button>
         </View>
       </View>
+      {routeCoords.length > 2 && !isTracking && (
+        <Button
+          className="bg-red-500 px-6 py-2 min-w-[130px]"
+          onPress={handleCancelRoute}
+          disabled={isTracking || routeCoords.length < 2}
+        >
+          <ButtonText>Cancel Route</ButtonText>
+        </Button>
+      )}
     </View>
   );
 };
