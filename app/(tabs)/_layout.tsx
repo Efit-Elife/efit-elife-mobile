@@ -47,15 +47,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(food-log)"
-        options={{
-          title: "Food Log",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="book" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="(tracks)"
         options={{
           title: "Tracks",

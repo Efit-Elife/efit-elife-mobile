@@ -1,26 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchQuery, addToSearchHistory, selectSearchQuery, selectSearchHistory } from '../store/foodSlice';
-import { RootState } from '@/store';
-import { useDebouncedSearch } from '@/hooks/useDebounce';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSearchQuery,
+  addToSearchHistory,
+  selectSearchQuery,
+  selectSearchHistory,
+} from "../store/foodSlice";
+import { RootState } from "@/store";
+import { useDebouncedSearch } from "@/hooks/useDebounce";
 
 interface EdamamSearchBarProps {
   onSearch: (query: string) => void;
   placeholder?: string;
 }
 
-export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({ 
-  onSearch, 
-  placeholder = "Search for foods..." 
+export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({
+  onSearch,
+  placeholder = "Search for foods...",
 }) => {
   const dispatch = useDispatch();
-  const storedSearchQuery = useSelector((state: RootState) => selectSearchQuery(state));
-  const searchHistory = useSelector((state: RootState) => selectSearchHistory(state));
+  const storedSearchQuery = useSelector((state: RootState) =>
+    selectSearchQuery(state)
+  );
+  const searchHistory = useSelector((state: RootState) =>
+    selectSearchHistory(state)
+  );
   const [showHistory, setShowHistory] = useState(false);
-  
+
   // Use debounced search to prevent excessive API calls
-  const { searchValue, debouncedSearchValue, setSearchValue } = useDebouncedSearch('', 500);
+  const { searchValue, debouncedSearchValue, setSearchValue } =
+    useDebouncedSearch("", 500);
 
   // Sync with Redux store
   useEffect(() => {
@@ -31,12 +47,15 @@ export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({
 
   // Trigger search when debounced value changes
   useEffect(() => {
-    if (debouncedSearchValue.trim() && debouncedSearchValue !== storedSearchQuery) {
+    if (
+      debouncedSearchValue.trim() &&
+      debouncedSearchValue !== storedSearchQuery
+    ) {
       dispatch(addToSearchHistory(debouncedSearchValue.trim()));
       onSearch(debouncedSearchValue.trim());
       setShowHistory(false);
     } else if (!debouncedSearchValue.trim()) {
-      onSearch(''); // Clear search results
+      onSearch(""); // Clear search results
     }
   }, [debouncedSearchValue, onSearch, dispatch, storedSearchQuery]);
 
@@ -64,7 +83,8 @@ export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>        <TextInput
+      <View style={styles.searchContainer}>
+        <TextInput
           style={styles.searchInput}
           value={searchValue}
           onChangeText={handleInputChange}
@@ -72,23 +92,27 @@ export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({
           placeholderTextColor="#666"
           returnKeyType="search"
           onSubmitEditing={handleSearch}
-          onFocus={() => setShowHistory(searchValue.length > 0 && searchHistory.length > 0)}
+          onFocus={() =>
+            setShowHistory(searchValue.length > 0 && searchHistory.length > 0)
+          }
         />
-        <TouchableOpacity 
-          style={styles.searchButton} 
+        <TouchableOpacity
+          style={styles.searchButton}
           onPress={handleSearch}
           disabled={!searchValue.trim()}
         >
-          <Text style={[
-            styles.searchButtonText,
-            !searchValue.trim() && styles.searchButtonTextDisabled
-          ]}>
+          <Text
+            style={[
+              styles.searchButtonText,
+              !searchValue.trim() && styles.searchButtonTextDisabled,
+            ]}
+          >
             Search
           </Text>
         </TouchableOpacity>
       </View>
 
-      {showHistory && (
+      {showHistory ? (
         <View style={styles.historyContainer}>
           <Text style={styles.historyTitle}>Recent Searches</Text>
           {searchHistory.slice(0, 5).map((historyItem, index) => (
@@ -101,22 +125,22 @@ export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({
             </TouchableOpacity>
           ))}
         </View>
-      )}
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingTop: 16,
     zIndex: 1000,
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 4,
@@ -125,29 +149,29 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     paddingVertical: 12,
-    color: '#333',
+    color: "#333",
   },
   searchButton: {
-    backgroundColor: '#4285F4',
+    backgroundColor: "#4285F4",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
     marginLeft: 8,
   },
   searchButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   searchButtonTextDisabled: {
-    color: '#999',
+    color: "#999",
   },
   historyContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 12,
     marginTop: 8,
     paddingVertical: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -158,20 +182,20 @@ const styles = StyleSheet.create({
   },
   historyTitle: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#666',
+    fontWeight: "600",
+    color: "#666",
     paddingHorizontal: 16,
     paddingBottom: 8,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   historyItem: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   historyItemText: {
     fontSize: 14,
-    color: '#333',
+    color: "#333",
   },
 });
