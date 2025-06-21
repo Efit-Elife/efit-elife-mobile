@@ -1,10 +1,12 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
-  orderBy,
   query,
   Timestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { firebaseFirestore } from "@/config/firebase";
@@ -45,4 +47,31 @@ export const getRoutesByUserId = async (
   }));
 
   return routes;
+};
+
+export const editRouteName = async (
+  routeId: string,
+  newName: string
+): Promise<boolean> => {
+  try {
+    const routeDocRef = doc(firebaseFirestore, "tracking-routes", routeId);
+    await updateDoc(routeDocRef, {
+      routeName: newName,
+    });
+    return true;
+  } catch (error) {
+    console.error("Failed to update route name:", error);
+    return false;
+  }
+};
+
+export const deleteRoute = async (routeId: string): Promise<boolean> => {
+  try {
+    const routeDocRef = doc(firebaseFirestore, "tracking-routes", routeId);
+    await deleteDoc(routeDocRef);
+    return true;
+  } catch (error) {
+    console.error("Failed to delete route:", error);
+    return false;
+  }
 };
