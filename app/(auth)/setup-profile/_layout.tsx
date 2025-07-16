@@ -16,7 +16,14 @@ const SetupProfileLayout = () => {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: "#000393",
+        },
+      }}
+    >
       <Stack.Screen name="step-1" options={{ title: "Step 1: Basic Info" }} />
       <Stack.Screen
         name="step-2"

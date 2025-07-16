@@ -33,7 +33,14 @@ export default function AuthRoutesLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: "#000393",
+        },
+      }}
+    >
       <Stack.Screen name="sign-in" options={{ title: "Sign In" }} />
       <Stack.Screen name="sign-up" options={{ title: "Sign Up" }} />
       <Stack.Screen
