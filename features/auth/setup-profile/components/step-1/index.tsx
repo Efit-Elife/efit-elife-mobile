@@ -244,11 +244,7 @@ const SetupProfileStep1 = () => {
                         key={option}
                         variant={value === option ? "solid" : "outline"}
                         size="sm"
-                        className={
-                          value === option
-                            ? "flex-1 bg-primary-600"
-                            : "flex-1 border-gray-400"
-                        }
+                        className="flex-1"
                         onPress={() => onChange(option)}
                       >
                         <ButtonText>{option}</ButtonText>
