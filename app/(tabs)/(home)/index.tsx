@@ -1,7 +1,6 @@
-import { Text } from "@/components/ui/text";
+import React from 'react';
+import { DailyFoodLogScreen } from '../../../features/food/components/DailyFoodLogScreen';
 
-const HomeScreen = () => {
-  return <Text>Home screen</Text>;
-};
-
-export default HomeScreen;
+export default function FoodLogIndex() {
+  return <DailyFoodLogScreen />;
+}
