@@ -28,10 +28,8 @@ export default function RouteItem({ item }: RouteItemProps) {
       )}
 
       <View className="flex-1 justify-center">
-        <Text className="text-lg font-bold mb-1 text-[#000000]">
-          {item.routeName}
-        </Text>
-        <Text className="text-sm mb-2 text-[#222222]">Date: {date}</Text>
+        <Text className="text-lg font-bold mb-1">{item.routeName}</Text>
+        <Text className="text-sm mb-2 text-[#979797]">Date: {date}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -35,7 +35,9 @@ function List<T extends BaseItem>({
   }
   return (
     <View className="p-4">
-      {title && <Text className="text-2xl font-bold mb-4">{title}</Text>}
+      {title && (
+        <Text className="text-2xl font-bold mb-4 text-white">{title}</Text>
+      )}
       {data.length === 0 ? (
         <Text className="text-center text-gray-500 my-8">{emptyText}</Text>
       ) : (

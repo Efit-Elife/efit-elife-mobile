@@ -49,8 +49,13 @@ export default function ChangeNameModal({
             <Text>Are you sure you want to delete this route?</Text>
           </ModalBody>
           <ModalFooter>
-            <Button variant="outline" action="secondary" onPress={handleClose}>
-              <ButtonText>Cancel</ButtonText>
+            <Button
+              variant="outline"
+              action="secondary"
+              onPress={handleClose}
+              className="border-2 border-gray-300"
+            >
+              <ButtonText className="text-gray-300">Cancel</ButtonText>
             </Button>
             <Button onPress={() => handleSubmit()}>
               <ButtonText>Confirm</ButtonText>

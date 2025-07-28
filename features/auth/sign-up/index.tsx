@@ -84,11 +84,11 @@ const RegisterContent = () => {
   return (
     <VStack className="max-w-[440px] w-full h-full" space="4xl">
       <VStack className="items-center">
-        <Logo width={150} height={150} />
-        <Heading className="text-center" size="3xl">
+        <Logo width={175} height={175} />
+        <Heading className="text-center mt-5" size="3xl">
           Sign up
         </Heading>
-        <Text>Sign up and start using Design Drip</Text>
+        <Text>Sign up and start using EFIT ELIFE</Text>
       </VStack>
 
       <VStack className="items-center" space="md">

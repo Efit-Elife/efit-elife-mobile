@@ -71,7 +71,6 @@ const SocialLoginButton = ({
   return (
     <Button
       variant="outline"
-      action="secondary"
       className="w-full gap-1"
       disabled={isPending}
       onPress={handleSocialLogin}

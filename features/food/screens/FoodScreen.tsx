@@ -168,7 +168,7 @@ export default function FoodScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000393",
   },
   content: {
     flex: 1,
@@ -176,16 +176,16 @@ const styles = StyleSheet.create({
   sectionHeader: {
     paddingHorizontal: 16,
     paddingVertical: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#000393",
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
+    color: "white",
     marginBottom: 4,
   },
   sectionSubtitle: {
     fontSize: 14,
-    color: "#666",
+    color: "#979797",
   },
 });

@@ -114,11 +114,7 @@ const SetupProfileStep3 = () => {
                         key={option}
                         variant={value === option ? "solid" : "outline"}
                         size="sm"
-                        className={`mr-2 mb-2 ${
-                          value === option
-                            ? "bg-primary-600"
-                            : "border-gray-400"
-                        }`}
+                        className="mr-2 mb-2 flex-1"
                         onPress={() => onChange(option)}
                       >
                         <ButtonText>{option}</ButtonText>
@@ -151,11 +147,7 @@ const SetupProfileStep3 = () => {
                         key={option}
                         variant={value === option ? "solid" : "outline"}
                         size="sm"
-                        className={
-                          value === option
-                            ? "w-full bg-primary-600"
-                            : "w-full border-gray-400"
-                        }
+                        className="w-full"
                         onPress={() => onChange(option)}
                       >
                         <ButtonText>{option}</ButtonText>
@@ -186,11 +178,7 @@ const SetupProfileStep3 = () => {
                         key={option}
                         variant={value === option ? "solid" : "outline"}
                         size="sm"
-                        className={
-                          value === option
-                            ? "w-full bg-primary-600"
-                            : "w-full border-gray-400"
-                        }
+                        className="w-full"
                         onPress={() => onChange(option)}
                       >
                         <ButtonText>{option}</ButtonText>

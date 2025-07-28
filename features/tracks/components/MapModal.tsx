@@ -129,13 +129,13 @@ export default function MapModal({
             </View>
             <View className="flex-row justify-center items-center gap-2 mt-4">
               <Button
-                className="bg-yellow-500"
+                className="bg-yellow-500 border-0"
                 onPress={() => setOpenEditModal(true)}
               >
                 <Icon as={EditIcon} size="lg" />
               </Button>
               <Button
-                className="bg-red-500"
+                className="bg-red-500 border-0"
                 onPress={() => setOpenDeleteModal(true)}
               >
                 <Icon as={TrashIcon} size="lg" />

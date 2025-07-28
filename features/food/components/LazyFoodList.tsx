@@ -1,8 +1,20 @@
-import React, { useCallback, useMemo } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
-import { SimplifiedFoodItem, EdamamModelConverter, EdamamApiResponse } from '@/types/edamam-api';
-import { InfiniteData } from '@tanstack/react-query';
-import { FoodListSkeleton } from '@/components/SkeletonLoader';
+import React, { useCallback, useMemo } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
+import {
+  SimplifiedFoodItem,
+  EdamamModelConverter,
+  EdamamApiResponse,
+} from "@/types/edamam-api";
+import { InfiniteData } from "@tanstack/react-query";
+import { FoodListSkeleton } from "@/components/SkeletonLoader";
 
 interface LazyFoodListProps {
   data: InfiniteData<EdamamApiResponse> | undefined;
@@ -14,29 +26,31 @@ interface LazyFoodListProps {
   isFetchingNextPage?: boolean;
 }
 
-const LazyFoodItem: React.FC<{ 
-  item: SimplifiedFoodItem; 
+const LazyFoodItem: React.FC<{
+  item: SimplifiedFoodItem;
   onPress: (food: SimplifiedFoodItem) => void;
 }> = React.memo(({ item, onPress }) => (
   <TouchableOpacity style={styles.foodItem} onPress={() => onPress(item)}>
     {item.image ? (
-      <Image 
-        source={{ uri: item.image }} 
+      <Image
+        source={{ uri: item.image }}
         style={styles.foodImage}
-        defaultSource={{ uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==' }}
+        defaultSource={{
+          uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==",
+        }}
       />
     ) : (
       <View style={styles.placeholderImage}>
         <Text style={styles.placeholderText}>🍽️</Text>
       </View>
     )}
-    
+
     <View style={styles.foodInfo}>
       <Text style={styles.foodName} numberOfLines={2}>
         {item.name}
       </Text>
       <Text style={styles.foodCategory}>{item.category}</Text>
-      
+
       <View style={styles.nutritionRow}>
         <View style={styles.nutritionItem}>
           <Text style={styles.nutritionValue}>{item.calories}</Text>
@@ -63,8 +77,8 @@ const LoadMoreButton: React.FC<{
   onPress: () => void;
   loading: boolean;
 }> = ({ onPress, loading }) => (
-  <TouchableOpacity 
-    style={styles.loadMoreButton} 
+  <TouchableOpacity
+    style={styles.loadMoreButton}
     onPress={onPress}
     disabled={loading}
   >
@@ -76,27 +90,30 @@ const LoadMoreButton: React.FC<{
   </TouchableOpacity>
 );
 
-export const LazyFoodList: React.FC<LazyFoodListProps> = ({ 
+export const LazyFoodList: React.FC<LazyFoodListProps> = ({
   data,
-  onFoodPress, 
-  loading = false, 
+  onFoodPress,
+  loading = false,
   error = null,
   onLoadMore,
   hasNextPage = false,
-  isFetchingNextPage = false
+  isFetchingNextPage = false,
 }) => {
   // Flatten the infinite data into a single array
   const foods = useMemo(() => {
     if (!data?.pages) return [];
-    
-    return data.pages.flatMap(page => 
-      page.hints.map(hint => EdamamModelConverter.toSimplifiedFoodItem(hint))
+
+    return data.pages.flatMap((page) =>
+      page.hints.map((hint) => EdamamModelConverter.toSimplifiedFoodItem(hint))
     );
   }, [data]);
 
-  const renderItem = useCallback(({ item }: { item: SimplifiedFoodItem }) => (
-    <LazyFoodItem item={item} onPress={onFoodPress} />
-  ), [onFoodPress]);
+  const renderItem = useCallback(
+    ({ item }: { item: SimplifiedFoodItem }) => (
+      <LazyFoodItem item={item} onPress={onFoodPress} />
+    ),
+    [onFoodPress]
+  );
 
   const renderFooter = useCallback(() => {
     if (!hasNextPage && foods.length > 0) {
@@ -109,10 +126,7 @@ export const LazyFoodList: React.FC<LazyFoodListProps> = ({
 
     if (hasNextPage && onLoadMore) {
       return (
-        <LoadMoreButton 
-          onPress={onLoadMore} 
-          loading={isFetchingNextPage} 
-        />
+        <LoadMoreButton onPress={onLoadMore} loading={isFetchingNextPage} />
       );
     }
 
@@ -127,7 +141,10 @@ export const LazyFoodList: React.FC<LazyFoodListProps> = ({
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.errorText}>Error: {error}</Text>
-        <TouchableOpacity style={styles.retryButton} onPress={() => console.log('Retry pressed')}>
+        <TouchableOpacity
+          style={styles.retryButton}
+          onPress={() => console.log("Retry pressed")}
+        >
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
       </View>
@@ -138,7 +155,9 @@ export const LazyFoodList: React.FC<LazyFoodListProps> = ({
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.emptyText}>No foods found</Text>
-        <Text style={styles.emptySubtext}>Try a different search term or category</Text>
+        <Text style={styles.emptySubtext}>
+          Try a different search term or category
+        </Text>
       </View>
     );
   }
@@ -172,13 +191,13 @@ export const LazyFoodList: React.FC<LazyFoodListProps> = ({
 
 const styles = StyleSheet.create({
   foodItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: "#B0B3FF",
     marginHorizontal: 16,
     marginVertical: 8,
     borderRadius: 12,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -192,15 +211,15 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 8,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: "#f5f5f5",
   },
   placeholderImage: {
     width: 80,
     height: 80,
     borderRadius: 8,
-    backgroundColor: '#f5f5f5',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#f5f5f5",
+    justifyContent: "center",
+    alignItems: "center",
   },
   placeholderText: {
     fontSize: 32,
@@ -211,70 +230,70 @@ const styles = StyleSheet.create({
   },
   foodName: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: "600",
+    color: "#333",
     marginBottom: 4,
   },
   foodCategory: {
     fontSize: 12,
-    color: '#666',
+    color: "#666",
     marginBottom: 8,
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
   nutritionRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   nutritionItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   nutritionValue: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#4285F4',
+    fontWeight: "600",
+    color: "#4285F4",
   },
   nutritionLabel: {
     fontSize: 10,
-    color: '#666',
+    color: "#666",
     marginTop: 2,
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   loadingText: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
     marginTop: 16,
   },
   errorText: {
     fontSize: 16,
-    color: '#DC2626',
-    textAlign: 'center',
+    color: "#DC2626",
+    textAlign: "center",
     marginBottom: 16,
   },
   retryButton: {
-    backgroundColor: '#4285F4',
+    backgroundColor: "#4285F4",
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 8,
   },
   retryButtonText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
   },
   emptyText: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: "600",
+    color: "#333",
     marginBottom: 8,
   },
   emptySubtext: {
     fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
+    color: "#666",
+    textAlign: "center",
   },
   listContainer: {
     paddingBottom: 20,
@@ -282,24 +301,24 @@ const styles = StyleSheet.create({
   loadMoreButton: {
     margin: 16,
     padding: 16,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     borderRadius: 12,
-    alignItems: 'center',
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: "#e0e0e0",
   },
   loadMoreText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#4285F4',
+    fontWeight: "600",
+    color: "#4285F4",
   },
   endMessage: {
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   endMessageText: {
     fontSize: 14,
-    color: '#666',
-    fontStyle: 'italic',
+    color: "#666",
+    fontStyle: "italic",
   },
 });

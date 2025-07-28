@@ -77,9 +77,9 @@ const LoginContent = () => {
   };
 
   return (
-    <VStack className="max-w-[440px] w-full h-full" space="4xl">
+    <VStack className="max-w-[440px] w-full h-full " space="4xl">
       <VStack className="items-center">
-        <Logo width={275} height={275} />
+        <Logo width={175} height={175} />
       </VStack>
       <VStack className="items-center" space="md">
         <VStack className="w-full" space="md">
@@ -185,14 +185,18 @@ const LoginContent = () => {
             </HStack>
           </VStack>
 
-          <Button className="w-full" onPress={handleSubmit(onSubmit)}>
+          <Button
+            className="w-full"
+            onPress={handleSubmit(onSubmit)}
+            action="primary"
+          >
             <ButtonText className="font-medium">Log in</ButtonText>
           </Button>
 
-          <HStack className="w-full justify-between">
+          <HStack className="w-full justify-between flex-col">
             <SocialLoginButton strategy="google" />
-            <SocialLoginButton strategy="facebook" />
-            <SocialLoginButton strategy="apple" />
+            {/* <SocialLoginButton strategy="facebook" />
+            <SocialLoginButton strategy="apple" /> */}
           </HStack>
         </VStack>
       </VStack>

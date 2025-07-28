@@ -83,8 +83,13 @@ export default function TrackFormModal({
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button variant="outline" action="secondary" onPress={handleClose}>
-              <ButtonText>Cancel</ButtonText>
+            <Button
+              variant="outline"
+              action="secondary"
+              onPress={handleClose}
+              className="border-2 border-gray-300"
+            >
+              <ButtonText className="text-gray-300">Cancel</ButtonText>
             </Button>
             <Button onPress={() => handleSubmit()}>
               <ButtonText>Submit</ButtonText>
