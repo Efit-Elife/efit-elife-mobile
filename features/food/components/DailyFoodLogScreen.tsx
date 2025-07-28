@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   summaryTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
+    color: "white",
     marginBottom: 12,
     textAlign: "center",
   },
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
   },
   summaryLabel: {
     fontSize: 12,
-    color: "#666",
+    color: "white",
     marginTop: 4,
   },
   mealSection: {
