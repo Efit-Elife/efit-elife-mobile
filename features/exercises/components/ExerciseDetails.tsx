@@ -13,7 +13,7 @@ const ExerciseDetails = ({ exercise, id }: ExerciseDetailsProps) => {
   return (
     <ScrollView className="p-4">
       <View>
-        <Text className="text-3xl font-bold mb-2 text-black text-center">
+        <Text className="text-3xl font-bold mb-2 text-white text-center">
           {exercise.name}
         </Text>
       </View>
@@ -29,14 +29,12 @@ const ExerciseDetails = ({ exercise, id }: ExerciseDetailsProps) => {
           Difficulty: {exercise.difficulty}
         </Text>
         <View className="mb-4">
-          <Text className="text-2xl font-bold mb-2 text-black">
+          <Text className="text-2xl font-bold mb-2 text-white">
             Instructions
           </Text>
-          <Text className="text-lg text-[#242424] text-justify">
-            {exercise.instruction}
-          </Text>
+          <Text className="text-lg text-justify">{exercise.instruction}</Text>
         </View>
-        <Text className="text-2xl font-bold mb-3 text-black">Focus Area</Text>
+        <Text className="text-2xl font-bold mb-3 text-white">Focus Area</Text>
         <View className="flex-row flex-wrap gap-4">
           {exercise.tags.map((area) => {
             return <FocusArea key={area} tag={area} />;

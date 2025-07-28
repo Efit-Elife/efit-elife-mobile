@@ -32,10 +32,8 @@ const ExerciseItem = ({ item, onPress }: ExerciseListItemProps) => {
       )}
 
       <View className="flex-1 justify-center">
-        <Text className="text-lg font-bold mb-1 text-[#000000]">
-          {item.name}
-        </Text>
-        <Text className="text-sm mb-2 text-[#222222]">
+        <Text className="text-lg font-bold mb-1">{item.name}</Text>
+        <Text className="text-sm mb-2 text-[#979797]">
           Difficulty: {item.difficulty}
         </Text>
         <Text className="text-sm text-[#4E71FF]">View Details</Text>

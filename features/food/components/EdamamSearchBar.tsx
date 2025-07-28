@@ -132,7 +132,7 @@ export const EdamamSearchBar: React.FC<EdamamSearchBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#000393",
     paddingHorizontal: 16,
     paddingTop: 16,
     zIndex: 1000,

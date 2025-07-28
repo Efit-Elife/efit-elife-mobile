@@ -65,8 +65,11 @@ const Tracks = () => {
         <Text className="text-red-500 p-2">Error: {error.message}</Text>
       )}
       <Center>
-        <TouchableOpacity onPress={handleOnPress} className="">
-          <Text className="text-blue-500 text-lg font-bold p-2">
+        <TouchableOpacity
+          onPress={handleOnPress}
+          className="bg-[#B0B3FF] w-full"
+        >
+          <Text className="text-blue-500 text-lg font-bold p-2 text-center">
             View Saved Routes
           </Text>
         </TouchableOpacity>
@@ -81,7 +84,7 @@ const Tracks = () => {
       <View className="absolute bottom-[10%] left-0 right-0 items-center ">
         <View className="flex-row gap-4">
           <Button
-            className="bg-blue-500 px-6 py-2 min-w-[130px]"
+            className="bg-blue-500 px-6 py-2 min-w-[130px] border-0"
             onPress={handleToggleMock}
           >
             <ButtonText>
@@ -90,7 +93,7 @@ const Tracks = () => {
           </Button>
 
           <Button
-            className="bg-green-500 px-6 py-2 min-w-[130px]"
+            className="bg-green-500 px-6 py-2 min-w-[130px] border-0"
             onPress={handleOpenModal}
             disabled={isTracking || routeCoords.length < 2}
           >
@@ -100,7 +103,7 @@ const Tracks = () => {
       </View>
       {routeCoords.length > 2 && !isTracking && (
         <Button
-          className="bg-red-500 px-6 py-2 absolute bottom-0 w-full"
+          className="bg-red-500 px-6 py-2 absolute bottom-0 w-full border-0"
           onPress={handleCancelRoute}
           disabled={isTracking || routeCoords.length < 2}
         >

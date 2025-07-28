@@ -183,7 +183,7 @@ export const DailyFoodLogScreen: React.FC = () => {
           <Text style={styles.headerDate}>{formatDate(selectedDate)}</Text>
         </View>
         {/* Date Navigation */}
-        <HStack className="justify-between items-center p-4 bg-gray-50">
+        <HStack className="justify-between items-center p-4 bg-[#B0B3FF]">
           <TouchableOpacity
             onPress={() => {
               const yesterday = new Date(selectedDate);
@@ -267,11 +267,11 @@ export const DailyFoodLogScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000393",
   },
   header: {
     padding: 20,
-    backgroundColor: "#4285F4",
+    backgroundColor: "#B0B3FF",
   },
   headerTitle: {
     fontSize: 24,
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   },
   dailySummary: {
     padding: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#B0B3FF",
     margin: 16,
     borderRadius: 12,
   },
