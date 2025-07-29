@@ -20,6 +20,10 @@ export default function TabLayout() {
     return <Spinner size="large" color={colors.gray[500]} />;
   }
 
+  if (!isSignedIn) {
+    return <Redirect href="/(auth)/sign-in" />;
+  }
+
   if (isSignedIn && user?.unsafeMetadata?.onboarding_completed !== true) {
     return <Redirect href="/(auth)/setup-profile/step-1" />;
   }

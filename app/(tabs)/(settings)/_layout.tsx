@@ -14,6 +14,14 @@ export default function SettingsLayout() {
       }}
     >
       <Stack.Screen name="index" options={{ title: "Settings" }} />
+      <Stack.Screen
+        name="payment-methods/index"
+        options={{ title: "Payment Methods", headerShown: false }}
+      />
+      <Stack.Screen
+        name="account/index"
+        options={{ title: "Update Profile", headerShown: false }}
+      />
     </Stack>
   );
 }
